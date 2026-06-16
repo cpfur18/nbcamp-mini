@@ -22,10 +22,9 @@ public class OrderService {
 
     public OrderResponseDto createOrder(OrderRequestDto request) {
         Product product = productService.findProduct(request.getProductId());
-        Order savedOrder = orderRepository.save(Order.of(product, request));
-
         product.validateNotDeleted();
         product.removeStock(request.getQuantity());
+        Order savedOrder = orderRepository.save(Order.of(product, request));
 
         return EntityDtoMapper.toDto(
                 orderRepository.findWithProductByIdOrThrow(savedOrder.getId()));

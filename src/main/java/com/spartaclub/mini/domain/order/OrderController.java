@@ -4,6 +4,7 @@ import com.spartaclub.mini.domain.order.dto.OrderRequestDto;
 import com.spartaclub.mini.domain.order.dto.OrderResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public class OrderController {
     @Operation(summary = "주문 생성", description = "새로운 주문을 생성한다.")
     @ApiResponse(responseCode = "200", description = "주문 생성 성공")
     public ResponseEntity<OrderResponseDto> createOrder(
-            @RequestBody OrderRequestDto orderRequestDto) {
+            @RequestBody @Valid OrderRequestDto orderRequestDto) {
         OrderResponseDto response = orderService.createOrder(orderRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
