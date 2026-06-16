@@ -1,4 +1,4 @@
-package com.spartaclub.mini.common.mapper;
+package com.spartaclub.mini.global.common.mapper;
 
 import com.spartaclub.mini.domain.order.dto.OrderResponseDto;
 import com.spartaclub.mini.domain.order.entity.Order;

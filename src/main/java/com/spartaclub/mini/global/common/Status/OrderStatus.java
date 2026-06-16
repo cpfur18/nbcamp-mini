@@ -1,4 +1,4 @@
-package com.spartaclub.mini.common.Status;
+package com.spartaclub.mini.global.common.Status;
 
 public enum OrderStatus {
     ORDER,

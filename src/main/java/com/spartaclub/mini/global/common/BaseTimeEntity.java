@@ -1,4 +1,4 @@
-package com.spartaclub.mini.common;
+package com.spartaclub.mini.global.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

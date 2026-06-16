@@ -1,7 +1,7 @@
 package com.spartaclub.mini.domain.product.repository;
 
-import com.spartaclub.mini.common.Status.ProductStatus;
 import com.spartaclub.mini.domain.product.entity.Product;
+import com.spartaclub.mini.global.common.Status.ProductStatus;
 import jakarta.persistence.LockModeType;
 import java.util.List;
 import java.util.Optional;

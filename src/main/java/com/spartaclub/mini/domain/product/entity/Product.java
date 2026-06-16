@@ -1,9 +1,9 @@
 package com.spartaclub.mini.domain.product.entity;
 
-import com.spartaclub.mini.common.BaseTimeEntity;
-import com.spartaclub.mini.common.Status.ProductStatus;
 import com.spartaclub.mini.domain.product.dto.ProductCreateDto;
 import com.spartaclub.mini.domain.product.dto.ProductUpdateDto;
+import com.spartaclub.mini.global.common.BaseTimeEntity;
+import com.spartaclub.mini.global.common.Status.ProductStatus;
 import com.spartaclub.mini.global.exception.NotEnoughStockException;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import jakarta.persistence.*;

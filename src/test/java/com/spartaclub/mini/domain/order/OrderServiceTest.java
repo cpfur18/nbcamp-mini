@@ -3,13 +3,13 @@ package com.spartaclub.mini.domain.order;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import com.spartaclub.mini.common.Status.OrderStatus;
-import com.spartaclub.mini.common.Status.ProductStatus;
 import com.spartaclub.mini.domain.order.dto.OrderRequestDto;
 import com.spartaclub.mini.domain.order.dto.OrderResponseDto;
 import com.spartaclub.mini.domain.product.ProductService;
 import com.spartaclub.mini.domain.product.entity.Product;
 import com.spartaclub.mini.domain.product.repository.ProductRepository;
+import com.spartaclub.mini.global.common.Status.OrderStatus;
+import com.spartaclub.mini.global.common.Status.ProductStatus;
 import com.spartaclub.mini.global.exception.NotEnoughStockException;
 import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;

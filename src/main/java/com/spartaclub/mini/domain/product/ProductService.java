@@ -1,12 +1,12 @@
 package com.spartaclub.mini.domain.product;
 
-import com.spartaclub.mini.common.Status.ProductStatus;
-import com.spartaclub.mini.common.mapper.EntityDtoMapper;
 import com.spartaclub.mini.domain.product.dto.ProductCreateDto;
 import com.spartaclub.mini.domain.product.dto.ProductResponseDto;
 import com.spartaclub.mini.domain.product.dto.ProductUpdateDto;
 import com.spartaclub.mini.domain.product.entity.Product;
 import com.spartaclub.mini.domain.product.repository.ProductRepository;
+import com.spartaclub.mini.global.common.Status.ProductStatus;
+import com.spartaclub.mini.global.common.mapper.EntityDtoMapper;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

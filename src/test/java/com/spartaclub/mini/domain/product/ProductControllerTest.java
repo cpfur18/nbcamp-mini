@@ -8,10 +8,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spartaclub.mini.common.Status.ProductStatus;
 import com.spartaclub.mini.domain.product.dto.ProductCreateDto;
 import com.spartaclub.mini.domain.product.dto.ProductResponseDto;
 import com.spartaclub.mini.domain.product.dto.ProductUpdateDto;
+import com.spartaclub.mini.global.common.Status.ProductStatus;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.stream.Stream;

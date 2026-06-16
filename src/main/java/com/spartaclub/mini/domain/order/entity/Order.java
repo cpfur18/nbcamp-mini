@@ -1,9 +1,9 @@
 package com.spartaclub.mini.domain.order.entity;
 
-import com.spartaclub.mini.common.BaseTimeEntity;
-import com.spartaclub.mini.common.Status.OrderStatus;
 import com.spartaclub.mini.domain.order.dto.OrderRequestDto;
 import com.spartaclub.mini.domain.product.entity.Product;
+import com.spartaclub.mini.global.common.BaseTimeEntity;
+import com.spartaclub.mini.global.common.Status.OrderStatus;
 import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import jakarta.persistence.*;
 import lombok.*;

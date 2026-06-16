@@ -1,6 +1,6 @@
 package com.spartaclub.mini.domain.order.dto;
 
-import com.spartaclub.mini.common.Status.OrderStatus;
+import com.spartaclub.mini.global.common.Status.OrderStatus;
 import lombok.Builder;
 import lombok.Getter;
 
