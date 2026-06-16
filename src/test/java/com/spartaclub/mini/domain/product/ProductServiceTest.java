@@ -8,18 +8,20 @@ import com.spartaclub.mini.domain.product.dto.ProductResponseDto;
 import com.spartaclub.mini.domain.product.dto.ProductUpdateDto;
 import com.spartaclub.mini.domain.product.repository.ProductRepository;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
-import com.spartaclub.mini.testconfig.DatabaseTestSupport;
+import com.spartaclub.mini.testconfig.TestContainerConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@ContextConfiguration(classes = {TestContainerConfig.class})
 @Sql(scripts = "/sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-class ProductServiceTest extends DatabaseTestSupport {
+class ProductServiceTest {
     @Autowired private ProductRepository productRepository;
     @Autowired private ProductService productService;
 
