@@ -7,6 +7,7 @@ import com.spartaclub.mini.domain.order.entity.Order;
 import com.spartaclub.mini.domain.order.repository.OrderRepository;
 import com.spartaclub.mini.domain.product.ProductService;
 import com.spartaclub.mini.domain.product.entity.Product;
+import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,12 +28,26 @@ public class OrderService {
         Order savedOrder = orderRepository.save(Order.of(product, request));
 
         return EntityDtoMapper.toDto(
-                orderRepository.findWithProductByIdOrThrow(savedOrder.getId()));
+                orderRepository
+                        .findWithProductById(savedOrder.getId())
+                        .orElseThrow(
+                                () ->
+                                        new OrderNotFoundException(
+                                                String.format(
+                                                        "해당 주문(id : %d)이 존재하지 않습니다.",
+                                                        savedOrder.getId()))));
     }
 
     @Transactional(readOnly = true)
     public OrderResponseDto getOrder(Long orderId) {
-        Order order = orderRepository.findWithProductByIdOrThrow(orderId);
+        Order order =
+                orderRepository
+                        .findWithProductById(orderId)
+                        .orElseThrow(
+                                () ->
+                                        new OrderNotFoundException(
+                                                String.format(
+                                                        "해당 주문(id : %d)이 존재하지 않습니다.", orderId)));
 
         return EntityDtoMapper.toDto(order);
     }
@@ -43,7 +58,14 @@ public class OrderService {
     }
 
     public void deleteOrder(Long orderId) {
-        Order order = orderRepository.findWithProductByIdOrThrow(orderId);
+        Order order =
+                orderRepository
+                        .findWithProductById(orderId)
+                        .orElseThrow(
+                                () ->
+                                        new OrderNotFoundException(
+                                                String.format(
+                                                        "해당 주문(id : %d)이 존재하지 않습니다.", orderId)));
 
         order.delete();
         order.getProduct().addStock(order.getQuantity());

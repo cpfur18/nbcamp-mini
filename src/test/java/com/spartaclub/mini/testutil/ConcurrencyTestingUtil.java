@@ -1,4 +1,4 @@
-package com.spartaclub.mini.testtyil;
+package com.spartaclub.mini.testutil;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;

@@ -14,7 +14,7 @@ import com.spartaclub.mini.global.exception.NotEnoughStockException;
 import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import com.spartaclub.mini.testconfig.DatabaseTestSupport;
-import com.spartaclub.mini.testtyil.ConcurrencyTestingUtil;
+import com.spartaclub.mini.testutil.ConcurrencyTestingUtil;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,11 +41,11 @@ class OrderServiceTest extends DatabaseTestSupport {
     void setUp() {
         dummyProduct =
                 productRepository.save(
-                        Product.builder().name("Dummy Product").price(100).stock(10).build());
+                        Product.builder().name("dummy").price(100).stock(10).build());
 
         dummyProduct2 =
                 productRepository.save(
-                        Product.builder().name("Dummy Product 2").price(200).stock(20).build());
+                        Product.builder().name("dummy2").price(200).stock(20).build());
 
         OrderRequestDto request = new OrderRequestDto(1L, 1);
         orderService.createOrder(request);

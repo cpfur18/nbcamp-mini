@@ -7,6 +7,7 @@ import com.spartaclub.mini.domain.product.dto.ProductResponseDto;
 import com.spartaclub.mini.domain.product.dto.ProductUpdateDto;
 import com.spartaclub.mini.domain.product.entity.Product;
 import com.spartaclub.mini.domain.product.repository.ProductRepository;
+import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,14 +27,26 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductResponseDto getProduct(Long productId) {
-        Product product = productRepository.findNotDeletedOrThrow(productId);
+        Product product =
+                productRepository
+                        .findByIdAndStatusNot(productId, ProductStatus.DELETED)
+                        .orElseThrow(
+                                () ->
+                                        new ProductNotFoundException(
+                                                String.format(
+                                                        "해당 상품(id : %d)이 존재하지 않습니다.", productId)));
 
         return EntityDtoMapper.toDto(product);
     }
 
     @Transactional(readOnly = true)
     public Product findProduct(Long productId) {
-        return productRepository.findByIdForUpdateOrThrow(productId);
+        return productRepository
+                .findByIdForUpdate(productId)
+                .orElseThrow(
+                        () ->
+                                new ProductNotFoundException(
+                                        String.format("해당 상품(id : %d)이 존재하지 않습니다.", productId)));
     }
 
     @Transactional(readOnly = true)
@@ -44,15 +57,28 @@ public class ProductService {
     }
 
     public ProductResponseDto updateProduct(ProductUpdateDto request, Long productId) {
-        Product product = productRepository.findNotDeletedOrThrow(productId);
-
+        Product product =
+                productRepository
+                        .findByIdAndStatusNot(productId, ProductStatus.DELETED)
+                        .orElseThrow(
+                                () ->
+                                        new ProductNotFoundException(
+                                                String.format(
+                                                        "해당 상품(id : %d)이 존재하지 않습니다.", productId)));
         product.update(request);
+
         return EntityDtoMapper.toDto(product);
     }
 
     public void deleteProduct(Long productId) {
-        Product product = productRepository.findNotDeletedOrThrow(productId);
-
+        Product product =
+                productRepository
+                        .findByIdAndStatusNot(productId, ProductStatus.DELETED)
+                        .orElseThrow(
+                                () ->
+                                        new ProductNotFoundException(
+                                                String.format(
+                                                        "해당 상품(id : %d)이 존재하지 않습니다.", productId)));
         product.delete();
     }
 }
