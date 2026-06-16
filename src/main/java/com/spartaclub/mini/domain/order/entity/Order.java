@@ -4,6 +4,7 @@ import com.spartaclub.mini.common.BaseTimeEntity;
 import com.spartaclub.mini.common.Status.OrderStatus;
 import com.spartaclub.mini.domain.order.dto.OrderRequestDto;
 import com.spartaclub.mini.domain.product.entity.Product;
+import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,7 +45,8 @@ public class Order extends BaseTimeEntity {
 
     public void delete() {
         if (this.status == OrderStatus.CANCEL) {
-            throw new IllegalStateException("이미 취소된 주문입니다");
+            // FIXME : 규모 늘릴 시 예외 메시지 변경 필요 (현재 404 NOT_FOUND)
+            throw new OrderNotFoundException("이미 취소된 주문입니다");
         }
         this.status = OrderStatus.CANCEL;
     }
