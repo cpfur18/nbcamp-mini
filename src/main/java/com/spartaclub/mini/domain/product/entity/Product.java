@@ -48,7 +48,7 @@ public class Product extends BaseTimeEntity {
         this.price = request.getPrice();
         this.stock = request.getStock();
 
-        if (this.status == ProductStatus.SOLD_OUT && this.stock >= 1) {
+        if (this.stock >= 1) {
             this.status = ProductStatus.SALE;
         } else {
             this.status = ProductStatus.SOLD_OUT;
