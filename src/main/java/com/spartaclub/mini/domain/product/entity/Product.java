@@ -16,7 +16,7 @@ import org.hibernate.annotations.SQLDelete;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@SQLDelete(sql = "UPDATE product SET status =  'DELETED' WHERE product_id = ?")
+@SQLDelete(sql = "UPDATE product SET status = 'DELETED' WHERE product_id = ?")
 public class Product extends BaseTimeEntity {
     @Id
     @Column(name = "product_id")

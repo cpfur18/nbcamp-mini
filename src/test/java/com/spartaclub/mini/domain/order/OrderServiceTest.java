@@ -25,9 +25,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Sql(scripts = "/sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class OrderServiceTest extends AbstractIntegrationTest {
     @Autowired OrderService orderService;
     @Autowired OrderRepository orderRepository;
@@ -97,6 +100,10 @@ class OrderServiceTest extends AbstractIntegrationTest {
         }
 
         @Test
+        /*
+        NOTE : @Transactional을 붙이지 않아 커넥션 풀이 닫히지 않은 상태로 다른 Test로 넘어가 오류 발생했던 것 같음
+         */
+        @DirtiesContext
         @DisplayName("주문 생성 시 동시 클릭으로 인해 재고가 부족할 경우 예외가 발생해야한다.")
         void createOrder_fail_when_stock_not_enough() throws InterruptedException {
             // given
@@ -225,7 +232,7 @@ class OrderServiceTest extends AbstractIntegrationTest {
 
         @Test
         @Transactional
-        @DisplayName("orderRepository.delete(order_id) 시 @SQLDelete가 작동해 UPDATE가 되어야 한다.")
+        @DisplayName("Repository 에서 직접 delete 시 @SQLDelete로 인해 UPDATE가 되어야 한다.")
         void deleteOrder_success_repository_delete_test() {
             // given
             Long orderId = 1L;

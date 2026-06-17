@@ -15,7 +15,7 @@ import org.hibernate.annotations.SQLDelete;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@SQLDelete(sql = "UPDATE orders SET status =  'CANCEL' WHERE order_id = ?")
+@SQLDelete(sql = "UPDATE orders SET status = 'CANCEL' WHERE order_id = ?")
 public class Order extends BaseTimeEntity {
     @Id
     @Column(name = "order_id")

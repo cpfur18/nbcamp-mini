@@ -18,6 +18,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Sql(scripts = "/sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class ProductServiceTest extends AbstractIntegrationTest {
     @Autowired private ProductRepository productRepository;
     @Autowired private ProductService productService;
@@ -187,6 +188,23 @@ class ProductServiceTest extends AbstractIntegrationTest {
             assertThatThrownBy(() -> productService.getProduct(savedResponse.getId()))
                     .isInstanceOf(ProductNotFoundException.class)
                     .hasMessage("해당 상품(id : %d)이 존재하지 않습니다.", savedResponse.getId());
+        }
+
+        @Test
+        @Transactional
+        @DisplayName("Repository 에서 직접 delete 시 @SQLDelete로 인해 UPDATE가 되어야 한다.")
+        void deleteProduct_success_repository_delete_test() {
+            // given
+            ProductCreateDto request = new ProductCreateDto("노트북", 1000, 10);
+            ProductResponseDto savedProduct = productService.createProduct(request);
+
+            // when
+            productRepository.deleteById(savedProduct.getId());
+
+            // then
+            assertThatThrownBy(() -> productService.getProduct(savedProduct.getId()))
+                    .isInstanceOf(ProductNotFoundException.class)
+                    .hasMessage("해당 상품(id : %d)이 존재하지 않습니다.", savedProduct.getId());
         }
 
         @Test
