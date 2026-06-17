@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import com.spartaclub.mini.domain.order.dto.OrderRequestDto;
 import com.spartaclub.mini.domain.order.dto.OrderResponseDto;
+import com.spartaclub.mini.domain.order.repository.OrderRepository;
 import com.spartaclub.mini.domain.product.ProductService;
 import com.spartaclub.mini.domain.product.entity.Product;
 import com.spartaclub.mini.domain.product.repository.ProductRepository;
@@ -13,7 +14,7 @@ import com.spartaclub.mini.global.common.Status.ProductStatus;
 import com.spartaclub.mini.global.exception.NotEnoughStockException;
 import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
-import com.spartaclub.mini.testconfig.TestContainerConfig;
+import com.spartaclub.mini.testconfig.AbstractIntegrationTest;
 import com.spartaclub.mini.testutil.ConcurrencyTestingUtil;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,15 +25,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@ContextConfiguration(classes = {TestContainerConfig.class})
-@Sql(scripts = "/sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-class OrderServiceTest {
+class OrderServiceTest extends AbstractIntegrationTest {
     @Autowired OrderService orderService;
+    @Autowired OrderRepository orderRepository;
     @Autowired ProductService productService;
     @Autowired ProductRepository productRepository;
 
@@ -219,6 +217,21 @@ class OrderServiceTest {
 
             // when
             orderService.deleteOrder(orderId);
+            OrderResponseDto response = orderService.getOrder(orderId);
+
+            // then
+            assertThat(response.getStatus()).isEqualTo(OrderStatus.CANCEL);
+        }
+
+        @Test
+        @Transactional
+        @DisplayName("orderRepository.delete(order_id) 시 @SQLDelete가 작동해 UPDATE가 되어야 한다.")
+        void deleteOrder_success_repository_delete_test() {
+            // given
+            Long orderId = 1L;
+
+            // when
+            orderRepository.deleteById(orderId);
             OrderResponseDto response = orderService.getOrder(orderId);
 
             // then

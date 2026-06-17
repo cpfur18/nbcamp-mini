@@ -7,6 +7,7 @@ import com.spartaclub.mini.global.common.Status.OrderStatus;
 import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Table(name = "orders")
@@ -14,6 +15,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@SQLDelete(sql = "UPDATE orders SET status =  'CANCEL' WHERE order_id = ?")
 public class Order extends BaseTimeEntity {
     @Id
     @Column(name = "order_id")

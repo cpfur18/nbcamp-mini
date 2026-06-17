@@ -8,6 +8,7 @@ import com.spartaclub.mini.global.exception.NotEnoughStockException;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 
 @Entity
 @Table(name = "product")
@@ -15,6 +16,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@SQLDelete(sql = "UPDATE product SET status =  'DELETED' WHERE product_id = ?")
 public class Product extends BaseTimeEntity {
     @Id
     @Column(name = "product_id")
