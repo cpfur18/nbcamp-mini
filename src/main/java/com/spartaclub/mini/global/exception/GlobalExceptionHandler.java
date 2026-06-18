@@ -13,6 +13,16 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(ProductDuplicatedNameException.class)
+    public ResponseEntity<?> handleProductDuplicatedNameException(
+            ProductDuplicatedNameException ex) {
+        log.warn("Product Duplicated Name: {}", ex.getMessage());
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        return ResponseEntity.status(status)
+                .body(new ErrorResponseDto(status.value(), status.name(), "중복된 상품 이름 입니다."));
+    }
+
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleProductNotFoundException(
             ProductNotFoundException ex) {

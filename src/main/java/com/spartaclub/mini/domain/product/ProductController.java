@@ -5,6 +5,7 @@ import com.spartaclub.mini.domain.product.dto.ProductResponseDto;
 import com.spartaclub.mini.domain.product.dto.ProductUpdateDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
+@Tag(name = "products", description = "상품 API")
 public class ProductController {
     private final ProductService productService;
 

@@ -7,35 +7,49 @@ import com.spartaclub.mini.domain.product.dto.ProductCreateDto;
 import com.spartaclub.mini.domain.product.dto.ProductResponseDto;
 import com.spartaclub.mini.domain.product.dto.ProductUpdateDto;
 import com.spartaclub.mini.domain.product.repository.ProductRepository;
+import com.spartaclub.mini.global.exception.ProductDuplicatedNameException;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import com.spartaclub.mini.testconfig.AbstractIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@Sql(scripts = "/sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class ProductServiceTest extends AbstractIntegrationTest {
     @Autowired private ProductRepository productRepository;
     @Autowired private ProductService productService;
 
-    @Test
-    @Transactional
-    // TODO : 상품 생성 시 같은 Name(Unique)이 있는 경우 예외처리 확인 테스트 코드 작성
-    @DisplayName("상품 생성 성공")
-    void createProduct_success() {
-        // given
-        ProductCreateDto request = new ProductCreateDto("노트북", 1000, 10);
+    @Nested
+    @DisplayName("상품 생성 테스트")
+    class createProduct {
+        @Test
+        @Transactional
+        @DisplayName("상품 생성 성공")
+        void createProduct_success() {
+            // given
+            ProductCreateDto request = new ProductCreateDto("노트북", 1000, 10);
 
-        // when
-        ProductResponseDto savedProduct = productService.createProduct(request);
+            // when
+            ProductResponseDto savedProduct = productService.createProduct(request);
 
-        // then
-        assertProduct(savedProduct, request);
+            // then
+            assertProduct(savedProduct, request);
+        }
+
+        @Test
+        @Transactional
+        @DisplayName("상품 생성 시 동일한 Name이 있는 경우 예외 처리가 되어야 한다.")
+        void createProduct_fail_when_duplicated_name() {
+            // given
+            ProductCreateDto request = new ProductCreateDto("노트북", 1000, 10);
+            ProductResponseDto savedProduct = productService.createProduct(request);
+
+            // when & then
+            assertThatThrownBy(() -> productService.createProduct(request))
+                    .isInstanceOf(ProductDuplicatedNameException.class)
+                    .hasMessage("중복된 상품명(name : %s) 입니다.", request.getName());
+        }
     }
 
     @Nested

@@ -10,7 +10,9 @@ import com.spartaclub.mini.global.common.mapper.EntityDtoMapper;
 import com.spartaclub.mini.global.exception.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +56,13 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public Page<OrderResponseDto> getOrderList(Pageable pageable) {
-        return orderRepository.findAllWithProduct(pageable);
+        Pageable pageRequest =
+                PageRequest.of(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        Sort.by("id").descending());
+
+        return orderRepository.findAllWithProduct(pageRequest);
     }
 
     public void deleteOrder(Long orderId) {

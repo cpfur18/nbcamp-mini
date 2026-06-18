@@ -7,6 +7,7 @@ import com.spartaclub.mini.domain.product.entity.Product;
 import com.spartaclub.mini.domain.product.repository.ProductRepository;
 import com.spartaclub.mini.global.common.Status.ProductStatus;
 import com.spartaclub.mini.global.common.mapper.EntityDtoMapper;
+import com.spartaclub.mini.global.exception.ProductDuplicatedNameException;
 import com.spartaclub.mini.global.exception.ProductNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,11 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public ProductResponseDto createProduct(ProductCreateDto request) {
+        if (productRepository.existsByName(request.getName())) {
+            throw new ProductDuplicatedNameException(
+                    String.format("중복된 상품명(name : %s) 입니다.", request.getName()));
+        }
+
         Product savedProduct = productRepository.save(Product.from(request));
 
         return EntityDtoMapper.toDto(savedProduct);

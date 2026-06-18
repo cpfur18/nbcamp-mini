@@ -19,4 +19,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByIdForUpdate(Long productId);
 
     List<Product> findAllByStatusNot(ProductStatus status);
+
+    boolean existsByName(String name);
 }
