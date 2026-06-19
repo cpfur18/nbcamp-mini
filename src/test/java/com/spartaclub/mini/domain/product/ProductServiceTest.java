@@ -196,7 +196,7 @@ class ProductServiceTest extends AbstractIntegrationTest {
             ProductResponseDto savedResponse = productService.createProduct(request);
 
             // when
-            productService.deleteProduct(1L);
+            productService.deleteProduct(savedResponse.getId());
 
             // then
             assertThatThrownBy(() -> productService.getProduct(savedResponse.getId()))

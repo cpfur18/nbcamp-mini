@@ -13,6 +13,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    // 중복된 상품 명 예외처리
     @ExceptionHandler(ProductDuplicatedNameException.class)
     public ResponseEntity<?> handleProductDuplicatedNameException(
             ProductDuplicatedNameException ex) {
@@ -23,6 +24,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto(status.value(), status.name(), "중복된 상품 이름 입니다."));
     }
 
+    // 존재하지 않는 상품 예외처리
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleProductNotFoundException(
             ProductNotFoundException ex) {
@@ -33,6 +35,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto(status.value(), status.name(), "상품을 찾을 수 없습니다."));
     }
 
+    // 존재하지 않는 주문 예외처리
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleOrderNotFoundException(
             OrderNotFoundException ex) {
@@ -43,6 +46,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto(status.value(), status.name(), "주문을 찾을 수 없습니다."));
     }
 
+    // 재고 0개일 때 예외처리
     @ExceptionHandler(NotEnoughStockException.class)
     public ResponseEntity<ErrorResponseDto> handleNotEnoughStockException(
             NotEnoughStockException ex) {
@@ -53,6 +57,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto(status.value(), status.name(), "재고가 부족합니다."));
     }
 
+    // DB 제약조건 위반 예외처리
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponseDto> handleDataIntegrityViolationException(
             DataIntegrityViolationException ex) {
@@ -63,6 +68,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto(status.value(), status.name(), "이미 존재하는 데이터 입니다."));
     }
 
+    // JSON 요청 데이터 DTO 변환 실패
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponseDto> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException ex) {
@@ -73,6 +79,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto(status.value(), status.name(), "잘못된 요청입니다."));
     }
 
+    // 쿼리 파라미터 타입 불일치 예외처리
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponseDto> handleMethodArgumentTypeMismatchException(
             MethodArgumentTypeMismatchException ex) {
@@ -83,6 +90,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto(status.value(), status.name(), "잘못된 요청입니다."));
     }
 
+    // @Valid 예외처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDto> handleValidException(
             MethodArgumentNotValidException ex) {
